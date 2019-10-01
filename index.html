@@ -1,1 +1,68 @@
-<iframe src="https://giphy.com/embed/avIjZwoO2L3zi" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/roleplaying-avIjZwoO2L3zi">via GIPHY</a></p>
+var bee = document.getElementById("bee");
+document.addEventListener("mousemove", getMouse); 
+
+
+bee.style.position = "absolute"; //css		
+var beepos = {x:0, y:0};
+
+setInterval(followMouse, 50);
+
+var mouse = {x:0, y:0}; //mouse.x, mouse.y
+
+var dir = "right";
+function getMouse(e){
+    mouse.x = e.pageX;
+    mouse.y = e.pageY;
+//Checking directional change
+if(mouse.x > beepos.x){
+  dir = "right";
+} else {
+  dir = "left";
+}
+}
+
+function followMouse(){
+    //1. find distance X , distance Y
+    var distX = mouse.x - beepos.x;
+    var distY = mouse.y - beepos.y;
+    //Easing motion
+//Progressive reduction of distance 
+    beepos.x += distX/5;
+    beepos.y += distY/2;
+    
+    bee.style.left = beepos.x + "px";
+    bee.style.top = beepos.y + "px";
+
+
+//Apply css class 
+if (dir == "right"){
+  bee.setAttribute("class", "right");
+} else {
+  bee.setAttribute("class", "left");        
+}
+    
+}
+
+<!--Image grabbed from: http://www.giantbomb.com/astro-boy-omega-factor/3030-2253/characters/-->
+<div id="bee"> 
+    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/160783/astroboy.png"   />
+  </div>
+
+  body { background-color:#000; }
+.left {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+}
+.right {
+        -moz-transform: scaleX(1);
+        -o-transform: scaleX(1);
+        -webkit-transform: scaleX(1);
+        transform: scaleX(1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+}
+#bee {transition: transform .1s}
